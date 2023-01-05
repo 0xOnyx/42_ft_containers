@@ -28,13 +28,31 @@ namespace ft
 		{
 			random_access_iterator<T>	res(*this);
 
-			this->_elem++
+			this->_elem++;
 			return (res);
 		}
 
+		bool		operator==(const random_access_iterator<T> &rhs) const {return (this->_elem == rhs._elem)};
+		bool		operator!=(const random_access_iterator<T> &rhs) const {return (this->_elem != rhs._elem)};
+		Reference	operator*() {return (*this->_elem)};
+		Pointer		operator->() {return (this->_elem)};
+
+		random_access_iterator	&operator--()
+		{
+			this->_elem--;
+			return (res);
+		}
+		random_access_iterator	operator--(int)
+		{
+			random_access_iterator<T>	res(*this);
+
+			this->_elem++;
+			return (res);
+		}
 	private:
 		Pointer	_elem;
 	};
+
 }
 
 #endif
