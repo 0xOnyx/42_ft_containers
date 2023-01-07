@@ -1,17 +1,19 @@
 NAME = stl
 
 SRC = main.cpp
-HEADER_PATH = /src
-HEADER = Vector.tpp
+HEADER_PATH = ./src/
+HEADER = vector.hpp random_access_iterator.hpp iterator.hpp
 HEADERS = $(addprefix $(HEADER_PATH),$(HEADER))
 OBJS = $(SRC:.cpp=.o)
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -O3
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -O3 -I$(HEADER_PATH)
 CC = c++
 RM = rm -rf
 
-SRCS =
 all: $(NAME)
+
+test:
+	echo $(HEADERS)
 
 %.o: %.cpp $(HEADERS)
 	$(CC) $(CXXFLAGS) -o $(@) -c $(<)

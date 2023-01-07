@@ -14,7 +14,7 @@ namespace ft
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::pointer pointer;
 		typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type value_type;
 
-		random_access_iterator(void) : _elem(nullptr) {};
+		random_access_iterator(void) : _elem(NULL) {};
 
 		random_access_iterator(pointer elem) : _elem(elem) {};
 
@@ -27,12 +27,19 @@ namespace ft
 			return (*this);
 		}
 
-		reference operator*() { return (*this->_elem) };
+		reference operator[](const difference_type n) { return (this->_elem[n]); };
 
-		pointer operator->() { return (this->_elem) };
+		reference operator*() { return (*this->_elem); };
+
+		pointer operator->() { return (this->_elem); };
 
 		random_access_iterator &operator++() {
 			this->_elem++;
+			return (*this);
+		}
+
+		random_access_iterator &operator--() {
+			this->_elem--;
 			return (*this);
 		}
 
@@ -43,15 +50,6 @@ namespace ft
 			return (res);
 		}
 
-		bool operator==(const random_access_iterator<T> &rhs) const { return (this->_elem == rhs._elem) };
-
-		bool operator!=(const random_access_iterator<T> &rhs) const { return (this->_elem != rhs._elem) };
-
-		random_access_iterator &operator--() {
-			this->_elem--;
-			return (res);
-		}
-
 		random_access_iterator operator--(int) {
 			random_access_iterator<T> res(*this);
 
@@ -59,10 +57,34 @@ namespace ft
 			return (res);
 		}
 
-		pointer base() const
-		{
-			return (this->_elem);
+		random_access_iterator	&operator+=(const difference_type n) {
+			this->_elem += n;
+
+			return (*this);
+		};
+
+		random_access_iterator	&operator-=(const difference_type n) {
+			this->_elem -= n;
+
+			return (*this);
 		}
+
+		random_access_iterator	operator+(const difference_type n) const { return random_access_iterator<T>(this->_elem + n); }
+
+		random_access_iterator	operator-(const difference_type n) const { return random_access_iterator<T>(this->_elem - n); }
+
+		bool operator==(const random_access_iterator<T> &rhs) const { return (this->_elem == rhs._elem); };
+
+		bool operator!=(const random_access_iterator<T> &rhs) const { return (this->_elem != rhs._elem); };
+
+		bool operator<(const random_access_iterator<T> &rhs) const { return (this->_elem < rhs._elem); };
+
+		bool operator>(const random_access_iterator<T> &rhs) const { return (this->_elem > rhs._elem); };
+
+		bool operator<=(const random_access_iterator<T> &rhs) const { return (this->_elem <= rhs._elem); };
+
+		bool operator>=(const random_access_iterator<T> &rhs) const { return (this->_elem >= rhs._elem); };
+
 	private:
 		pointer	_elem;
 	};
