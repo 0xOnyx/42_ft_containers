@@ -1,6 +1,7 @@
-#ifndef VECTOR_TPP
+`#ifndef VECTOR_TPP
 # define VECTOR_TPP
 # include <memory>
+# include <stdexcept>
 # include "random_access_iterator.hpp"
 //https://cplusplus.com/reference/stl/
 
@@ -60,7 +61,7 @@ namespace ft
 		}
 
 		//Deconstructor
-		~vecto  r()
+		~vector()
 		{
 			this->clear();
 		}
@@ -77,7 +78,7 @@ namespace ft
 			this->clear();
 			pointer current = _start;
 
-			while (current != _end_capacity)
+			while (current != _end)
 				_alloc.destory(current++);
 			_alloc.deallocate(_start, _end_capacity - _start);
 			_start = nullptr;
@@ -159,8 +160,81 @@ namespace ft
 			return (this->size() == 0);
 		}
 
+		void	reserve(size_type n)
+		{
+			iterator 	old_start;
+			iterator	old_end;
+			size_type	current_capacity;
+			size_type	current_size;
 
+			current_capacity = this->capacity();
+			current_size = this->size();
+			if (n > current_capacity)
+			{
+				old_start = this->begin();
+				old_end	= this->end();
+				_start = _alloc.allocate(n);
+				_end = _start;
+				_end_capacity = _start + n;
+				while (old_start != old_end)
+					_alloc.construct(_end++, *old_start++);
+				old_start -= current_size;
+				while (old_start != old_end)
+					_alloc.destroy(old_start++);
+				old_start -= current_size;
+				_alloc.deallocate(old_start, current_capacity);
+			}
+		}
 
+		void	shrink_to_fit()
+		{
+			iterator 	old_start;
+			iterator	old_end;
+			size_type	current_capacity;
+			size_type	current_size;
+
+			current_capacity = this->capacity();
+			current_size = this->size();
+			if (_end != _end_capacity)
+			{
+				old_start = this->begin();
+				old_end	= this->end();
+				_start = _alloc.allocate(current_size);
+				_end = _start;
+				_end_capacity = _start + current_size;
+				while (old_start != old_end)
+					_alloc.construct(_end++, *old_start++);
+				old_start -= current_size;
+				while (old_start != old_end)
+					_alloc.destroy(old_start++);
+				old_start -= current_size;
+				_alloc.deallocate(old_start, current_capacity);
+			}
+		}
+
+		reference operator[](size_type n)
+		{
+			iterator current;
+
+			current = this->begin();
+			return (current[n]);
+		}
+
+		const_reference operator[](size_type n) const
+		{
+			const_reference 	current;
+
+			current = this->begin();
+			return (current[n]);
+		}
+
+		reference at(size_type n)
+		{
+
+			if (n >= this->size())
+				throw std::out_of_range("vector::_M_range_check: __n (which is 10) >= this->size() (which is " + std::to_string(n) + ")");
+
+		}
 	private:
 		allocator_type	_alloc;
 		pointer 		_start;
