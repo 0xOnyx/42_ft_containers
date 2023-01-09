@@ -208,7 +208,17 @@ namespace ft
 		const value_type	*data()	const 	{ return (this->_start); }
 
 
+		template <class	InputIterator>
+		void assign(InputIterator first, InputIterator last)
+		{
+			size_type len;
 
+			this->clear();
+			while (first != last)
+			{
+				this->push_back(*first);
+			}
+		}
 	private:
 		allocator_type	_alloc;
 		pointer 		_start;
