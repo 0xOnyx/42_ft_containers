@@ -24,11 +24,11 @@ namespace ft
 	template <class Iter>
 	struct iterator_traits
 	{
-		difference_type		Iter::difference_type;
-		value_type			Iter::value_type;
-		pointer				Iter::pointer;
-		reference			Iter::reference;
-		iterator_category	Iter::iterator_category;
+		typedef typename Iter::difference_type		difference_type;
+		typedef typename Iter::value_type 			value_type;
+		typedef typename Iter::pointer 				pointer;
+		typedef typename Iter::reference			reference;
+		typedef typename Iter::iterator_category	iterator_category;
 	};
 
 	template <class T>
